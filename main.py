@@ -89,3 +89,19 @@ def mettre_a_jour_excel(payload: MettreAJourExcelRequest):
         "status": "success",
         "message": f"Ligne {index} mise à jour avec succès."
     }
+from fastapi.responses import FileResponse
+
+@app.get("/telecharger_excel")
+def telecharger_excel():
+    file_path = "importateurs G&B.xlsx"
+    if not os.path.exists(file_path):
+        return {
+            "status": "error",
+            "message": f"Fichier introuvable : {file_path}"
+        }
+    return FileResponse(
+        path=file_path,
+        filename="importateurs_GB_mis_a_jour.xlsx",
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
